@@ -7,8 +7,7 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
-        FlightBuilder flightBuilder = new FlightBuilder();
-        List<Flight> flights = flightBuilder.createFlights();
+        List<Flight> flights = FlightBuilder.createFlights();
 
         // 1. вылет до текущего момента времени
         checkFlights1(flights);
@@ -31,7 +30,7 @@ public class Main {
             for (Segment seg : segs) {
                 if (seg.getDepartureDate().isBefore(LocalDateTime.now())) {
                     correctFlight = false;
-                    continue;
+                    break;
                 }
             }
             if (correctFlight) {
@@ -54,7 +53,7 @@ public class Main {
             for (Segment seg : segs) {
                 if (seg.getDepartureDate().isAfter(seg.getArrivalDate())) {
                     correctFlight = false;
-                    continue;
+                    break;
                 }
             }
             if (correctFlight) {

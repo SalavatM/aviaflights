@@ -9,8 +9,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 public class MainTest {
-    FlightBuilder flightBuilder = new FlightBuilder();
-    List<Flight> flights = flightBuilder.createFlights();
+    List<Flight> flights = FlightBuilder.createFlights();
 
     @Test
     public void whenGivenFlightsListThenFilteredList1() {
