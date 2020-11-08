@@ -19,7 +19,7 @@ public class Main {
         checkFlights3(flights);
     }
 
-    public static int checkFlights1(List<Flight> flights) {
+    public static List<Flight> checkFlights1(List<Flight> flights) {
         System.out.println("Список 1: исключены перелеты с вылетами до текущего момента времени");
         List<Flight> filteredList = new ArrayList<>();
         int count = 0;
@@ -40,10 +40,10 @@ public class Main {
             }
         }
         System.out.println();
-        return filteredList.size();
+        return filteredList;
     }
 
-    public static int checkFlights2(List<Flight> flights) {
+    public static List<Flight> checkFlights2(List<Flight> flights) {
         System.out.println("Список 2: исключены перелеты с датой прилёта раньше даты вылета");
         List<Flight> filteredList = new ArrayList<>();
         int count = 0;
@@ -63,12 +63,13 @@ public class Main {
             }
         }
         System.out.println();
-        return filteredList.size();
+        return filteredList;
     }
 
-    public static int checkFlights3(List<Flight> flights) {
+    public static List<Flight> checkFlights3(List<Flight> flights) {
         System.out.println("Список 3: исключены перелеты с интервалом между сегментами более 2 часов");
         List<Flight> filteredList = new ArrayList<>();
+        int groundTime = 0;
         int count = 0;
         for (Flight flight : flights) {
             boolean correctFlight = true;
@@ -76,14 +77,17 @@ public class Main {
             if (segs.size() > 1) {
                 LocalDateTime PreviousArrivalDate = null;
                 for (Segment seg : segs) {
-                    long d1 = PreviousArrivalDate == null ? 0 : Math.abs(ChronoUnit.HOURS.between(PreviousArrivalDate, seg.getDepartureDate()));
-                    if (d1 > 2) {
+                    long d1 = PreviousArrivalDate == null ? 0
+                            : Math.abs(ChronoUnit.HOURS.between(PreviousArrivalDate, seg.getDepartureDate()));
+                    groundTime += d1;
+                    if (groundTime > 2) {
                         correctFlight = false;
                         break;
                     }
                     PreviousArrivalDate = seg.getArrivalDate();
                 }
-
+            } else {
+                correctFlight = false;
             }
             if (correctFlight) {
                 filteredList.add(flight);
@@ -91,7 +95,7 @@ public class Main {
                 System.out.println("Flight " + count + ": " + flight);
             }
         }
-        return filteredList.size();
+        return filteredList;
     }
 }
 
